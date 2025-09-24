@@ -1,0 +1,20 @@
+{
+  "name": "Cok League",
+  "version": "1.0.0",
+  "description": "App de gestão de ligas e jogadores",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql2": "^3.5.2",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5"
+  },
+  "engines": {
+    "node": "20.x"
+  },
+  "author": "Exmo Grand",
+  "license": "MIT"
+}

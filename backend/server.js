@@ -5,7 +5,7 @@ const cors = require("cors");
 const path = require("path");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; // usa a porta do Render se existir
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -13,10 +13,10 @@ app.use(express.static(path.join(__dirname, "../frontend")));
 
 // ========================= CONEXÃO MYSQL =========================
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "EMERSON007",
-  database: "papa"
+  host: process.env.DB_HOST || "localhost",
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD || "EMERSON007",
+  database: process.env.DB_NAME || "papa"
 });
 
 db.connect(err => {
@@ -69,12 +69,8 @@ app.get("/users", (req, res) => {
   });
 });
 
-// ========================= APAGAR USUÁRIO =========================
-// Agora restaurado e funcional
 app.delete("/users/:id", (req, res) => {
   const userId = req.params.id;
-
-  // Evitar apagar o admin fixo
   if (userId === "1") return res.status(403).send("Não é permitido apagar o admin");
 
   db.query("DELETE FROM users WHERE id=?", [userId], (err) => {
@@ -161,7 +157,6 @@ app.delete("/confrontos/:id", (req, res) => {
   });
 });
 
-// ========================= REGISTRAR RESULTADO =========================
 app.put("/confrontos/:id/resultado", (req, res) => {
   const id = req.params.id;
   const { golos_casa, golos_fora } = req.body;
